@@ -268,7 +268,7 @@ pnpm probe:anchor testanchor.stellar.org   # probe a live anchor, print the fact
 pnpm registry:read                         # read the registry via @corridor/registry
 pnpm registry:read --sep 24 --passed sep10_auth   # filter; --max-age and --json too
 ATTESTER_SECRET=S… pnpm attest             # probe + submit both halves: bitmaps, then observed assets and declared country
-cd contracts && cargo test                 # 39 contract tests
+cd contracts && cargo test                 # 68 contract tests
 ```
 
 ## Proof against a real SEP-31 anchor
