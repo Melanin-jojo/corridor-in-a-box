@@ -341,12 +341,21 @@ const ALPHA2 = new Set<string>(Object.values(TO_ALPHA2));
 
 /** The tail of an address line, as a key into the tables above. */
 function normaliseTail(segment: string): string {
-  return segment
-    .replace(/[().]+/g, "")
-    .replace(/[\s-]+$/g, "")
-    .replace(/^[\s-]+/g, "")
-    .trim()
-    .toLowerCase();
+  return trimSpaceAndDashes(segment.replace(/[().]+/g, "")).toLowerCase();
+}
+
+/**
+ * Strip whitespace and hyphens from both ends. A loop rather than `/[\s-]+$/`: that
+ * pattern backtracks quadratically on a long run of whitespace that does not end the
+ * string, and the input is text from an anchor's own stellar.toml.
+ */
+function trimSpaceAndDashes(text: string): string {
+  const isEdge = (ch: string) => ch === "-" || ch.trim() === "";
+  let start = 0;
+  let end = text.length;
+  while (start < end && isEdge(text.charAt(start))) start += 1;
+  while (end > start && isEdge(text.charAt(end - 1))) end -= 1;
+  return text.slice(start, end);
 }
 
 /**
